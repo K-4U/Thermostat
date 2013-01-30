@@ -1,0 +1,7 @@
+DS1820 voor temperatuursensor
+Grafisch touchscreen (ks0108)
+Batterijmeting
+
+Step up voor voeding:
+http://www.sparkfun.com/datasheets/Prototyping/Batteries/NCP1400_5V_Step-Up_v11.pdf
+Voeding met 2 batterijen
