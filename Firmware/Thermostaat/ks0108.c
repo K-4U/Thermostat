@@ -11,7 +11,7 @@
 #include <inttypes.h>
 #include <avr/io.h>
 #include <avr/pgmspace.h>
-#include "ks0108.h"
+#include "headers/ks0108.h"
 
 lcdCoord			ks0108Coord;
 uint8_t				ks0108Inverted=0;

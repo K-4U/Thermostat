@@ -15,19 +15,19 @@
 #define KS0108_H
 
 // Ports
-#define LCD_CMD_PORT		PORTC		// Command Output Register
-#define LCD_CMD_DIR			DDRC		// Data Direction Register for Command Port
+#define LCD_CMD_PORT		PORTD		// Command Output Register
+#define LCD_CMD_DIR			DDRD		// Data Direction Register for Command Port
 
-#define LCD_DATA_IN			PIND		// Data Input Register
-#define LCD_DATA_OUT		PORTD		// Data Output Register
-#define LCD_DATA_DIR		DDRD		// Data Direction Register for Data Port
+#define LCD_DATA_IN			PINB		// Data Input Register
+#define LCD_DATA_OUT		PORTB		// Data Output Register
+#define LCD_DATA_DIR		DDRB		// Data Direction Register for Data Port
 
 // Command Port Bits
 #define D_I					0x06		// D/I Bit Number
-#define R_W					0x04		// R/W Bit Number
-#define EN					0x05		// EN Bit Number
-#define CSEL1				0x02		// CS1 Bit Number
-#define CSEL2				0x03		// CS2 Bit Number
+#define R_W					0x07		// R/W Bit Number
+#define EN					0x02		// EN Bit Number
+#define CSEL1				0x03		// CS1 Bit Number
+#define CSEL2				0x04		// CS2 Bit Number
 
 // Chips
 #define CHIP1				0x00
@@ -72,6 +72,7 @@ void ks0108DrawLine(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t colo
 void ks0108DrawRect(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t color);
 void ks0108DrawRoundRect(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t radius, uint8_t color);
 void ks0108FillRect(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t color);
+void ks0108FillRoundRect(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint8_t radius, uint8_t color);
 void ks0108InvertRect(uint8_t x, uint8_t y, uint8_t width, uint8_t height);
 void ks0108SetInverted(uint8_t invert);
 void ks0108SetDot(uint8_t x, uint8_t y, uint8_t color);

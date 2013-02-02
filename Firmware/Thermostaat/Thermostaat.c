@@ -5,41 +5,61 @@
  *  Author: Koen Beckers
  */ 
 
-#define F_CPU 8000000UL
+//#define F_CPU 8000000UL
 #include <avr/io.h>
-#include <util/delay.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
-#include <inttypes.h>
-#include <string.h>
 #include <stdio.h>
-#include <inttypes.h>
 #include <stdlib.h>
+#define MAIN_C
+#include "headers/structs.h"
+#include "headers/main.h"
+
+#include "headers/uart.h" //TEMP
+
+#include "headers/ks0108.h"
+#include "headers/glcdFunctions.h"
+#include "headers/progressbar.h"
 
 
-#include "main.h"
-
-#include "ks0108.h"
-#include "arial_bold_14.h"
-
-#include "ds1820.h"
+FILE  uart_str= FDEV_SETUP_STREAM(uart_putchar, uart_getchar, _FDEV_SETUP_RW);
 
 
-uint16_t read_adc(uint8_t adc_input)
+uint8_t read_adc(uint8_t adc_input)
 {
 	//Set ADC off
 	ADCSRA &= ~(1<<ADEN)|~(1<<ADSC);
 
 	ADMUX = (0 << REFS0); // Set ADC reference to AVREF
-	//ADMUX |= (1 << ADLAR); // Left adjust ADC result to allow easy 8 bit reading
+	ADMUX |= (1 << ADLAR); // Left adjust ADC result to allow easy 8 bit reading
 	ADMUX |= adc_input;
 
 	ADCSRA |= (1<<ADEN)|(1<<ADSC);
 	while ((ADCSRA & 0x10)==0);
 	ADCSRA|=0x10;
-	return ADC;
+	
+	//uint16_t z2 = ADCL; //Read the high
+	//z2 = z2 + (ADCH<<8); //Read the low
+
+	return ADCH;
 }
 
+
+uint16_t read_adc_16(uint8_t adc_input)
+{
+	//Set ADC off
+	ADCSRA &= ~(1<<ADEN)|~(1<<ADSC);
+
+	ADMUX = (0 << REFS0); // Set ADC reference to AVREF
+	ADMUX &= ~(1 << ADLAR); // Left adjust ADC result to allow easy 8 bit reading
+	ADMUX |= adc_input;
+
+	ADCSRA |= (1<<ADEN)|(1<<ADSC);
+	while ((ADCSRA & 0x10)==0);
+	ADCSRA|=0x10;
+
+	return ADC;
+}
 
 
 int main(void){
@@ -48,77 +68,98 @@ int main(void){
 	// 1 = output
 	// 0 = input
 	//		 76543210
-	DDRA = 0b00100000;
+	//DDRA = 0b00100000;
 	DDRB = 0b00000000;
-	DDRC = 0xFF;
+	DDRC = 0x00;
 	DDRD = 0xFF;
 	
+	stdout = stderr = &uart_str; //So that we can use printf() to print to our UART
+	
+	uart_init();
+	
+	sei();
+	
+	printf("Test");
 	LED_AAN();
 		/*-------------------------------------
 	 * ADC Conversion
 	 *-------------------------------------
 	 */
-	ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (0 << ADPS0); 
-	ADMUX |= (0 << REFS0); 
-	//ADMUX |= (1 << ADLAR); // Left adjust ADC result to allow easy 8 bit reading
+	ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (0 << ADPS0); // Set ADC prescaler to 128 - 125KHz sample rate @ 20MHz
+
+	ADMUX |= (0 << REFS0); // Set ADC reference to AVREF
+	ADMUX |= (1 << ADLAR); // Left adjust ADC result to allow easy 8 bit reading
 
 	ADCSRA |= (1 << ADEN);  // Enable ADC
 	ADCSRA |= (1 << ADSC);  // Start A2D Conversions
 	
-	// Wait a little while the display starts up
-	
-	
 	// Initialize the LCD
 	ks0108Init(0);
 	
-	// Select a font
+	currentTemp = 20.5;
+	setTemp = 17.0;
+	dtostrf(currentTemp,1,1,currentTempStr);
+	dtostrf(setTemp,1,1,setTempStr);
+	sprintf(currentTimeStr,"20:09:30");
 	
-	ks0108SelectFont(Arial_Bold_14, ks0108ReadFontData, BLACK);
-	// Set a position
-	ks0108GotoXY(15,10);
-	// Print some text
-	ks0108Puts_P(PSTR("Hallo wereld!"));
-	// a nice little round rect
-	ks0108DrawRoundRect(5, 5, 117, 20, 8, BLACK);
+	drawMainScreen();
 	
-
-
-	// Once again :)
-	// Select a font
-	//ks0108SelectFont(SC, ks0108ReadFontData, BLACK);
-	// Set a position
-	//ks0108GotoXY(5,30);
-	// Print some text
-	//ks0108Puts("test");
-   // ks0108DrawLine(0, 0, 100, 50, BLACK);
-	//ks0108DrawCircle(50, 40, 20, BLACK);
-	//ks0108ClearScreen();
-	//LoadBitmap(IMAGE);
-
+	
+	lcdPos stylus;
+	lcdPos oldStylus;
+	
+	uint8_t batteryLevel = read_adc(5);
+	uint8_t oldBatteryLevel = batteryLevel;
+	progressBar battery = createProgressBar(batteryLevel,256,BATTERY_X,BATTERY_Y,BATTERY_WIDTH,BATTERY_HEIGHT);
+	drawBar(&battery);
+	
+	uint16_t wait;
+	double oldSetTemp;
+	double oldCurrentTemp;
 	for(;;){
-		ks0108ClearScreen();
-		char lm35TempString[10];
+		stylus = readPos();
+		uint8_t posDiff = 0;
+		if((posDiff = isDifferent(&stylus,&oldStylus))){
+			if(posDiff & DIFF_P){
+				if(stylus.isPressed){
+					printf("Pressed\r\n");
+					if(isIn(&stylus,&buttonDown)){
+						drawMainScreenButtons(2);
+						setTemp-=0.5;
+					}else if(isIn(&stylus,&buttonUp)){
+						drawMainScreenButtons(1);
+						setTemp+=0.5;
+					}
+				}else{
+					//That means it went up!
+					printf("Released\r\n");
+					drawMainScreenButtons(0);
+				}
+			}				
+			oldStylus = stylus;
+		}
+		if(oldSetTemp != setTemp){
+			dtostrf(setTemp,1,1,setTempStr);
+			oldSetTemp = setTemp;
+			drawValues();
+		}
 		
-		double tempff;
-		uint16_t tempC;
+		if(wait == MAXWAIT){
+			batteryLevel = read_adc(5);
+			if( (batteryLevel <= (oldBatteryLevel-2)) || (batteryLevel >= (oldBatteryLevel+2))){
+				updateBar(&battery,batteryLevel);
+				oldBatteryLevel = batteryLevel;
+			}
+			wait = 0;			
+		}
+		wait++;
 		
-		tempC = read_adc(3);
-		tempff = (float)tempC;
-		tempff = (5.0 * tempC * 100.0)/1023.0;
+		//currentTemp = read_adc_16(4);
+		//printf("%i\r\n",currentTemp);
 		
-		dtostrf(tempff,1,1,&lm35TempString);
-		
-		ks0108GotoXY(15,10);
-		// Print some text
-		ks0108Puts_P(PSTR("Hallo wereld!"));
-		// a nice little round rect
-		ks0108DrawRoundRect(5, 5, 117, 20, 8, BLACK);
-		ks0108GotoXY(15,30);
-		// Print some text
-		ks0108Puts(lm35TempString);
-		//ks0108Puts_P(PSTR(ds1820TempString));
-		// a nice little round rect
-		ks0108DrawRoundRect(5, 5, 117, 40, 8, BLACK);
-		_delay_ms(500);
+		//dtostrf(currentTemp,1,1,currentTempStr);
+		//dtostrf(setTemp,1,1,setTempStr);
+		//drawValues();
+		//drawMainScreen();
 	}
 }

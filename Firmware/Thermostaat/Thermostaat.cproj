@@ -5,7 +5,7 @@
     <ProjectVersion>6.0</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8</ToolchainName>
     <ProjectGuid>{56fab812-7022-484d-b638-c17edd721cce}</ProjectGuid>
-    <avrdevice>ATmega8535</avrdevice>
+    <avrdevice>ATmega168</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
     <OutputType>Executable</OutputType>
     <Language>C</Language>
@@ -33,7 +33,7 @@
       </OverrideVtorValue>
       <Channel>
         <host>127.0.0.1</host>
-        <port>56752</port>
+        <port>50792</port>
         <ssl>False</ssl>
       </Channel>
       <ToolOptions>
@@ -89,21 +89,71 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="arial_bold_14.h">
+    <Compile Include="fonts\arial_bold_14.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="fonts\dejavusans9.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="fonts\lucida_Console_14.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="fonts\ubuntu_8.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="fonts\ubuntu_bold_14.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="glcdFunctions.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\ds1820.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\glcdFunctions.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\ks0108.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\main.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\onewire.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\progressbar.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\structs.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\uart.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="ks0108.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="ks0108.h">
+    <Compile Include="lang\en.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="main.h">
+    <Compile Include="lang\nl.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="progressbar.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Thermostaat.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="uart.c">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="fonts" />
+    <Folder Include="lang" />
+    <Folder Include="headers" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
