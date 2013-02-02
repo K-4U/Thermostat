@@ -19,7 +19,7 @@ Thermostaat.d Thermostaat.o: .././Thermostaat.c \
  c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/stdlib.h \
  .././headers/structs.h .././headers/main.h .././headers/../lang/nl.h \
  .././headers/uart.h .././headers/ks0108.h .././headers/glcdFunctions.h \
- .././headers/progressbar.h .././headers/structs.h
+ .././headers/batterybar.h .././headers/structs.h
 
 c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/avr/io.h:
 
@@ -69,6 +69,6 @@ c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.
 
 .././headers/glcdFunctions.h:
 
-.././headers/progressbar.h:
+.././headers/batterybar.h:
 
 .././headers/structs.h:

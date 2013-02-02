@@ -20,8 +20,9 @@
 PROTO_F square buttonUp;
 PROTO_F square buttonDown;
 
-extern void drawMenuHeader(char *x);
-extern void drawTime();
+extern void drawMenuHeader(void);
+extern void drawTime(void);
+extern void drawDate(void);
 extern void drawMainScreenButtons(uint8_t active);
 extern void drawMenu(char *title, const sMenuItem *pcmuItems, uint8_t iMaxItems);
 extern void drawValues();

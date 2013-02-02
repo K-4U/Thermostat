@@ -104,6 +104,9 @@
     <Compile Include="fonts\ubuntu_bold_14.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="fonts\ubuntu_bold_26.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="glcdFunctions.c">
       <SubType>compile</SubType>
     </Compile>
@@ -122,7 +125,7 @@
     <Compile Include="headers\onewire.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="headers\progressbar.h">
+    <Compile Include="headers\batterybar.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="headers\structs.h">
@@ -140,7 +143,7 @@
     <Compile Include="lang\nl.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="progressbar.c">
+    <Compile Include="batterybar.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Thermostaat.c">

@@ -19,7 +19,7 @@
 
 #include "headers/ks0108.h"
 #include "headers/glcdFunctions.h"
-#include "headers/progressbar.h"
+#include "headers/batterybar.h"
 
 
 FILE  uart_str= FDEV_SETUP_STREAM(uart_putchar, uart_getchar, _FDEV_SETUP_RW);
@@ -101,6 +101,7 @@ int main(void){
 	dtostrf(currentTemp,1,1,currentTempStr);
 	dtostrf(setTemp,1,1,setTempStr);
 	sprintf(currentTimeStr,"20:09:30");
+	sprintf(currentDateStr,"02-02-13");
 	
 	drawMainScreen();
 	
@@ -110,7 +111,7 @@ int main(void){
 	
 	uint8_t batteryLevel = read_adc(5);
 	uint8_t oldBatteryLevel = batteryLevel;
-	progressBar battery = createProgressBar(batteryLevel,256,BATTERY_X,BATTERY_Y,BATTERY_WIDTH,BATTERY_HEIGHT);
+	batteryBar battery = createBatteryBar(batteryLevel,256,TOPBAR_Y+1);
 	drawBar(&battery);
 	
 	uint16_t wait;

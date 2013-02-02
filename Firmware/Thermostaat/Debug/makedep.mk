@@ -6,7 +6,7 @@ glcdFunctions.c
 
 ks0108.c
 
-progressbar.c
+batterybar.c
 
 Thermostaat.c
 

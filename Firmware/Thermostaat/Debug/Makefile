@@ -40,7 +40,7 @@ SUBDIRS :=  \
 C_SRCS +=  \
 ../glcdFunctions.c \
 ../ks0108.c \
-../progressbar.c \
+../batterybar.c \
 ../Thermostaat.c \
 ../uart.c
 
@@ -54,7 +54,7 @@ ASM_SRCS +=
 OBJS +=  \
 glcdFunctions.o \
 ks0108.o \
-progressbar.o \
+batterybar.o \
 Thermostaat.o \
 uart.o
 
@@ -62,7 +62,7 @@ uart.o
 OBJS_AS_ARGS +=  \
 glcdFunctions.o \
 ks0108.o \
-progressbar.o \
+batterybar.o \
 Thermostaat.o \
 uart.o
 
@@ -70,7 +70,7 @@ uart.o
 C_DEPS +=  \
 glcdFunctions.d \
 ks0108.d \
-progressbar.d \
+batterybar.d \
 Thermostaat.d \
 uart.d
 
@@ -78,7 +78,7 @@ uart.d
 C_DEPS_AS_ARGS +=  \
 glcdFunctions.d \
 ks0108.d \
-progressbar.d \
+batterybar.d \
 Thermostaat.d \
 uart.d
 

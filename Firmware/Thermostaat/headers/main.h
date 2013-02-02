@@ -23,6 +23,7 @@ PROTO char setTempStr[5];
 PROTO uint8_t prevY;
 
 PROTO char currentTimeStr[8];
+PROTO char currentDateStr[8];
 
 #define LED			_BV(PD5)
 #define LED_AAN()	PORTD |= LED
@@ -31,26 +32,29 @@ PROTO char currentTimeStr[8];
 
 #define KS0108_SCREEN_WIDTH		128
 #define KS0108_SCREEN_HEIGHT	64
-#define TEXTFONT	Ubuntu_9
-#define VALUEFONT	Ubuntu_bold_14
+#define TEXTFONT		Ubuntu_9
+#define SMALLVALUEFONT	Ubuntu_bold_14
+#define LARGEVALUEFONT	ubuntu_bold_26
 
 #define ROUNDNESS	3
 #define DEBUG
 
-#define BUTTON_UP_X		(KS0108_SCREEN_WIDTH/2)+37
-#define BUTTON_UP_Y		23
-#define BUTTON_UP_WIDTH	15
-#define BUTTON_UP_HEIGHT 10
+#define BUTTON_DOWN_X			(KS0108_SCREEN_WIDTH/2)
+#define BUTTON_DOWN_Y			SET_Y + UBUNTU_BOLD_14_HEIGHT + 2
+#define BUTTON_DOWN_WIDTH		14
+#define BUTTON_DOWN_HEIGHT		10
 
-#define BUTTON_DOWN_X	(KS0108_SCREEN_WIDTH/2)+37
-#define BUTTON_DOWN_Y	33
-#define BUTTON_DOWN_WIDTH	15
-#define BUTTON_DOWN_HEIGHT 10
+#define BUTTON_UP_X			BUTTON_DOWN_X + BUTTON_DOWN_WIDTH + 4
+#define BUTTON_UP_Y			BUTTON_DOWN_Y
+#define BUTTON_UP_WIDTH		14
+#define BUTTON_UP_HEIGHT	10
 
-#define BATTERY_X		1
-#define BATTERY_Y		(KS0108_SCREEN_HEIGHT - 3)
-#define BATTERY_WIDTH	(KS0108_SCREEN_WIDTH -2)
-#define BATTERY_HEIGHT	2
+#define CURRENT_X		3
+#define CURRENT_Y		20
+#define SET_X			(KS0108_SCREEN_WIDTH/2 + 2)
+#define SET_Y			20
+
+#define TOPBAR_Y		8
 
 #define MAXWAIT			512
 

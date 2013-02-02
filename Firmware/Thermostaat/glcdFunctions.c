@@ -22,27 +22,30 @@
 
 #include "fonts/ubuntu_8.h"
 #include "fonts/ubuntu_bold_14.h"
+#include "fonts/ubuntu_bold_26.h"
 
 
 extern uint8_t read_adc(uint8_t adc_input);
 
-void drawMenuHeader(char *x){
-	ks0108GotoXY(3,1);
-	ks0108Puts(x);
-	
-	//Draw time
+void drawMenuHeader(){
 	drawTime();
+	drawDate();
 	
-	//And box it away
-	ks0108DrawRoundRect(0,0,KS0108_SCREEN_WIDTH-1,9,4,BLACK);
+	ks0108DrawHoriLine(0,TOPBAR_Y,KS0108_SCREEN_WIDTH,BLACK);
 }
 
 void drawTime(){
-	
 	uint8_t stringWidth = ks0108StringWidth(currentTimeStr);
-	ks0108FillRect(KS0108_SCREEN_WIDTH - stringWidth - 3,1,stringWidth,8,WHITE);
-	ks0108GotoXY(KS0108_SCREEN_WIDTH - stringWidth - 3,1);
+	ks0108FillRect(KS0108_SCREEN_WIDTH - stringWidth - 3,0,stringWidth,8,WHITE);
+	ks0108GotoXY(KS0108_SCREEN_WIDTH - stringWidth - 3,0);
 	ks0108Puts(currentTimeStr);
+}
+
+void drawDate(){
+	uint8_t stringWidth = ks0108StringWidth(currentDateStr);
+	ks0108FillRect(3,0,stringWidth,8,WHITE);
+	ks0108GotoXY(3,0);
+	ks0108Puts(currentDateStr);
 }
 
 /*
@@ -59,7 +62,7 @@ void drawMenu(char *title, const sMenuItem *pcmuItems, uint8_t iMaxItems){
 
 void drawMainScreen(){
 	ks0108SelectFont(TEXTFONT, ks0108ReadFontData,BLACK);
-	drawMenuHeader(LANG_TITLE);
+	drawMenuHeader();
 
 	
 	drawValues();
@@ -107,52 +110,60 @@ uint8_t isDifferent(lcdPos *p1, lcdPos *p2){
 }
 
 void drawValues(){
-	ks0108FillRect(1,23,35,20,WHITE);
-	//Draw a box just on the left edge of the screen
-	ks0108GotoXY(1,12);
-	ks0108Puts(LANG_CURRENT);
-	ks0108GotoXY(3, 27);
-	ks0108SelectFont(VALUEFONT,ks0108ReadFontData,BLACK);
+	ks0108FillRect(CURRENT_X,CURRENT_Y,35,20,WHITE);
+	ks0108GotoXY(CURRENT_X, CURRENT_Y);
+	ks0108SelectFont(LARGEVALUEFONT,ks0108ReadFontData,BLACK);
 	
 	uint8_t fWidth = ks0108StringWidth(currentTempStr);
 	ks0108Puts(currentTempStr);
 	//Draw degree
-	ks0108DrawCircle(fWidth+(1)+4,27, 2, BLACK)
-	ks0108DrawRoundRect(1,23,35,20,ROUNDNESS,BLACK);
-	
-	
-	//And one on the right
-	ks0108SelectFont(TEXTFONT, ks0108ReadFontData,BLACK);
-	ks0108GotoXY(KS0108_SCREEN_WIDTH/2,12);
-	ks0108Puts(LANG_SET);
-	ks0108FillRect(KS0108_SCREEN_WIDTH/2,23,35,20, WHITE);
-	
-	ks0108GotoXY(KS0108_SCREEN_WIDTH/2 + 2, 27);
-	ks0108SelectFont(VALUEFONT,ks0108ReadFontData,BLACK);
-	
+	ks0108DrawCircle(fWidth+CURRENT_X+5,20, 3, BLACK)
+	ks0108DrawCircle(fWidth+CURRENT_X+5,20, 2, BLACK)
+
+	//And the set temperature
+	ks0108SelectFont(SMALLVALUEFONT,ks0108ReadFontData,BLACK);
 	fWidth = ks0108StringWidth(setTempStr);
+	ks0108FillRect(SET_X,SET_Y,fWidth + 4,UBUNTU_BOLD_14_HEIGHT, WHITE);
+	
+	ks0108GotoXY(SET_X, SET_Y);
+	
+	
+	
 	ks0108Puts(setTempStr);
 	//Draw degree
-	ks0108DrawCircle(fWidth+(KS0108_SCREEN_WIDTH/2)+4,27, 2, BLACK)
-	ks0108DrawRoundRect(KS0108_SCREEN_WIDTH/2,23,35,20,ROUNDNESS,BLACK);
+	ks0108DrawCircle(fWidth+SET_X+4,SET_Y, 2, BLACK)
+	//ks0108DrawRoundRect(KS0108_SCREEN_WIDTH/2,23,35,20,ROUNDNESS,BLACK);
 }
 
 
 //Active. 0 = none, 1 = UP, 2 = DOWN
 void drawMainScreenButtons(uint8_t active){
-	ks0108SelectFont(TEXTFONT, ks0108ReadFontData,BLACK);
 	ks0108FillRect(BUTTON_UP_X,BUTTON_UP_Y,BUTTON_UP_WIDTH,BUTTON_UP_HEIGHT,WHITE);
 	ks0108FillRect(BUTTON_DOWN_X,BUTTON_DOWN_Y,BUTTON_DOWN_WIDTH,BUTTON_DOWN_HEIGHT,WHITE);
 	
-	ks0108DrawRoundRect(BUTTON_UP_X,BUTTON_UP_Y,BUTTON_UP_WIDTH,BUTTON_UP_HEIGHT,ROUNDNESS,BLACK);
-	ks0108DrawRoundRect(BUTTON_DOWN_X,BUTTON_DOWN_Y,BUTTON_DOWN_WIDTH,BUTTON_DOWN_HEIGHT,ROUNDNESS,BLACK);
-	ks0108GotoXY(BUTTON_UP_X+((BUTTON_UP_WIDTH-ks0108CharWidth('+'))/2)+1,BUTTON_UP_Y+((BUTTON_UP_HEIGHT-9)/2)+1);
-	ks0108PutChar('+');
+	ks0108DrawRect(BUTTON_UP_X,BUTTON_UP_Y,BUTTON_UP_WIDTH,BUTTON_UP_HEIGHT,BLACK);
+	ks0108DrawRect(BUTTON_DOWN_X,BUTTON_DOWN_Y,BUTTON_DOWN_WIDTH,BUTTON_DOWN_HEIGHT,BLACK);
+	
+	/*ks0108GotoXY(BUTTON_UP_X+((BUTTON_UP_WIDTH-ks0108CharWidth('+'))/2)+1,BUTTON_UP_Y+((BUTTON_UP_HEIGHT-9)/2)+1);
+	ks0108PutChar('+');*/
 	
 	uint8_t x1 = BUTTON_DOWN_X+(BUTTON_DOWN_WIDTH/4)+1;
-	uint8_t x2 = x1 + (BUTTON_DOWN_WIDTH/2);
+	uint8_t x2 = x1 + (BUTTON_DOWN_WIDTH/2)-1;
 	uint8_t y = BUTTON_DOWN_Y+(BUTTON_DOWN_HEIGHT/2);
 	ks0108DrawLine(x1,y,x2,y,BLACK);
+	
+	x1 = BUTTON_UP_X+(BUTTON_UP_WIDTH/4)+1;
+	x2 = x1 + (BUTTON_UP_WIDTH/2)-1;
+	uint8_t y1 = BUTTON_UP_Y+(BUTTON_UP_HEIGHT/2);
+	
+	ks0108DrawLine(x1,y1,x2,y1,BLACK);
+	
+	x1 = ((x2 - x1) / 2) + x1;
+	y1 = BUTTON_UP_Y+(BUTTON_UP_HEIGHT/4)+1;
+	uint8_t y2 = y1 + (BUTTON_UP_HEIGHT / 2)-1;
+	
+	ks0108DrawLine(x1,y1,x1,y2,BLACK);
+	
 	//ks0108GotoXY(BUTTON_DOWN_X+((BUTTON_DOWN_WIDTH-8)/2)+1,BUTTON_DOWN_Y+((BUTTON_DOWN_HEIGHT-10)/2));
 	//ks0108PutChar('-');
 	
