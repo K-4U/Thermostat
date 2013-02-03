@@ -11,11 +11,6 @@
 #define MENU_TEXTLEN 20
 
 typedef struct{
-    char acText[MENU_TEXTLEN];
-    uint8_t iReturn;
-} sMenuItem;
-
-typedef struct{
 	uint8_t x;
 	uint8_t y;
 	uint8_t isPressed;
@@ -28,7 +23,20 @@ typedef struct{
 	uint8_t height;
 } square;
 
+typedef struct{
+	uint8_t seconds;
+	uint8_t minute;
+	uint8_t hours;
+	uint8_t day;
+	uint8_t date;
+	uint8_t month;
+	uint8_t year;
+} dateTime;
 
 
+typedef struct {
+	uint8_t *image;
+	double setTemp;
+} preset;
 
 #endif /* STRUCTS_H_ */

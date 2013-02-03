@@ -20,7 +20,10 @@ glcdFunctions.d glcdFunctions.o: .././glcdFunctions.c \
  c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/stdio.h \
  c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/include/stdarg.h \
  .././headers/structs.h .././headers/main.h .././headers/../lang/nl.h \
- .././headers/glcdFunctions.h .././headers/ks0108.h .././fonts/ubuntu_8.h \
+ .././headers/glcdFunctions.h .././headers/ks0108.h .././headers/bitmap.h \
+ .././headers/structs.h .././headers/bitmaps/bootscreen.h \
+ .././headers/bitmaps/flame.h .././headers/bitmaps/sun.h \
+ .././headers/bitmaps/moon.h .././fonts/ubuntu_8.h \
  .././fonts/ubuntu_bold_14.h .././fonts/ubuntu_bold_26.h
 
 c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/avr/io.h:
@@ -72,6 +75,18 @@ c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.
 .././headers/glcdFunctions.h:
 
 .././headers/ks0108.h:
+
+.././headers/bitmap.h:
+
+.././headers/structs.h:
+
+.././headers/bitmaps/bootscreen.h:
+
+.././headers/bitmaps/flame.h:
+
+.././headers/bitmaps/sun.h:
+
+.././headers/bitmaps/moon.h:
 
 .././fonts/ubuntu_8.h:
 

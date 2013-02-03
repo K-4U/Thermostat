@@ -19,13 +19,19 @@
 
 PROTO_F square buttonUp;
 PROTO_F square buttonDown;
+PROTO_F square buttonPreset;
+PROTO_F square preset_sun;
+PROTO_F square preset_moon;
 
+extern void drawMainScreen();
 extern void drawMenuHeader(void);
 extern void drawTime(void);
 extern void drawDate(void);
 extern void drawMainScreenButtons(uint8_t active);
-extern void drawMenu(char *title, const sMenuItem *pcmuItems, uint8_t iMaxItems);
-extern void drawValues();
+extern void drawValues(void);
+extern void drawPresetActive(void);
+extern void closePresetDrawer(void);
+extern void drawPresetDrawer(void);
 
 extern uint8_t isIn(lcdPos *pos,square *obj);
 extern uint8_t isDifferent(lcdPos *p1, lcdPos *p2);
@@ -34,10 +40,9 @@ extern uint8_t isDifferent(lcdPos *p1, lcdPos *p2);
 #define DIFF_Y	0b00000010
 #define DIFF_P	0b00000100
 
-extern sMenuItem makeMenuItem(const char *paccText, int iRet);
 
-extern void drawMainScreen();
-
+extern void turnLcdOn(void);
+extern void turnLcdOff(void);
 
 extern lcdPos readPos(void);
 

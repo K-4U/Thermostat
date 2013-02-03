@@ -1,4 +1,4 @@
-#define F_CPU				8000000
+//#define F_CPU				8000000
 #define UART_BAUD  			192000
 #define UART_BUFFER_SIZE	40
 

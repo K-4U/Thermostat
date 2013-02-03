@@ -75,6 +75,11 @@
       <AvrGcc>
         <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
         <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>F_CPU=8000000</Value>
+          </ListValues>
+        </avrgcc.compiler.symbols.DefSymbols>
         <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
         <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
         <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
@@ -89,6 +94,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="bitmap.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="crc8.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="fonts\arial_bold_14.h">
       <SubType>compile</SubType>
     </Compile>
@@ -110,7 +121,25 @@
     <Compile Include="glcdFunctions.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="headers\ds1820.h">
+    <Compile Include="headers\bitmap.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\bitmaps\bootscreen.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\bitmaps\flame.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\bitmaps\moon.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\bitmaps\sun.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\crc8.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\ds1307.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="headers\glcdFunctions.h">
@@ -120,9 +149,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="headers\main.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="headers\onewire.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="headers\batterybar.h">
@@ -155,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="fonts" />
+    <Folder Include="headers\bitmaps\" />
     <Folder Include="lang" />
     <Folder Include="headers" />
   </ItemGroup>

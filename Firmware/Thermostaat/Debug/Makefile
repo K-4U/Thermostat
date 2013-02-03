@@ -32,12 +32,15 @@ OUTPUT_FILE_DEP:=
 # Every subdirectory with source files must be described here
 SUBDIRS :=  \
 ../fonts \
+../headers/bitmaps/ \
 ../lang \
 ../headers
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../bitmap.c \
+../crc8.c \
 ../glcdFunctions.c \
 ../ks0108.c \
 ../batterybar.c \
@@ -52,6 +55,8 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+bitmap.o \
+crc8.o \
 glcdFunctions.o \
 ks0108.o \
 batterybar.o \
@@ -60,6 +65,8 @@ uart.o
 
 
 OBJS_AS_ARGS +=  \
+bitmap.o \
+crc8.o \
 glcdFunctions.o \
 ks0108.o \
 batterybar.o \
@@ -68,6 +75,8 @@ uart.o
 
 
 C_DEPS +=  \
+bitmap.d \
+crc8.d \
 glcdFunctions.d \
 ks0108.d \
 batterybar.d \
@@ -76,6 +85,8 @@ uart.d
 
 
 C_DEPS_AS_ARGS +=  \
+bitmap.d \
+crc8.d \
 glcdFunctions.d \
 ks0108.d \
 batterybar.d \
@@ -103,10 +114,14 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 
 
 
+
+
+
+
 ./%.o: .././%.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRGCC\3.3.2.31\AVRToolchain\bin\avr-gcc.exe$(QUOTE)  -funsigned-char -funsigned-bitfields -Os -fpack-struct -fshort-enums -Wall -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)"  -mmcu=atmega168  -o"$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRGCC\3.3.2.31\AVRToolchain\bin\avr-gcc.exe$(QUOTE)  -funsigned-char -funsigned-bitfields -DF_CPU=8000000  -Os -fpack-struct -fshort-enums -Wall -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)"  -mmcu=atmega168  -o"$@" "$<" 
 	@echo Finished building: $<
 
 

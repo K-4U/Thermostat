@@ -1,0 +1,34 @@
+$(start_block_header)
+/*******************************************************************************
+* $(dataType)
+* filename: $(fileName)
+* name: $(documentName)
+*
+* preset name: $(preset)
+* data block size: $(dataBlockSize) bit(s), uint$(dataBlockSize)_t
+* RLE compression enabled: $(rle)
+* conversion type: $(convType), $(monoType) $(edge)
+* bits per pixel: $(bpp)
+*
+* preprocess:
+*  main scan direction: $(scanMain)
+*  line scan direction: $(scanSub)
+*  inverse: $(inverse)
+*******************************************************************************/
+
+/*
+ typedef struct {
+     const uint$(dataBlockSize)_t *data;
+     uint16_t width;
+     uint16_t height;
+     } tImage;
+*/
+#include <stdint.h>
+$(end_block_header)
+
+$(start_block_images_table)
+static uint$(dataBlockSize)_t $(documentName_ws)[] PROGMEM = {
+	$(width), $(height),
+    $(imageData)
+};
+$(end_block_images_table)

@@ -3,12 +3,12 @@
 
 #include <avr/io.h>
 #include <util/atomic.h>
-#include "onewire.h"
+#include "headers/onewire.h"
 
-#define DQ_PIN	PD0
-#define DQ_READPIN PIND
-#define DQ_PORT	PORTD
-#define DQ_DDR	DDRD
+#define DQ_PIN	PC4
+#define DQ_READPIN PINC
+#define DQ_PORT	PORTC
+#define DQ_DDR	DDRC
 
 /*
 #define OW_PIN  PC0
@@ -137,17 +137,23 @@ unsigned char onewire_read()
  */
 double ds1820_read(void)
 {
+	printf("Reading..\r\n");
+	ADCSRA &= ~(1<<ADEN)|~(1<<ADSC);
 	uint8_t busy=0, temp1, temp2;
     int16_t temp3;
     double result;
 
+	printf("Reset\r\n");
     ow_reset();
+	printf("Writing some bytes.\r\n");
 	ow_byte_wr(0xCC); 
 	ow_byte_wr(0x44);
 	
+	printf("Waiting...\r\n");
 	while(busy == 0){
 		busy = ow_byte_rd();
 	}
+	printf("Done waiting\r\n");
 	
 	ow_reset();
 	ow_byte_wr(0xCC);

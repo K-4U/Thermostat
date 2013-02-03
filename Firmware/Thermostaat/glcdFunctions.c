@@ -19,6 +19,7 @@
 #include "headers/main.h"
 #include "headers/glcdFunctions.h"
 #include "headers/ks0108.h"
+#include "headers/bitmap.h"
 
 #include "fonts/ubuntu_8.h"
 #include "fonts/ubuntu_bold_14.h"
@@ -35,29 +36,61 @@ void drawMenuHeader(){
 }
 
 void drawTime(){
-	uint8_t stringWidth = ks0108StringWidth(currentTimeStr);
-	ks0108FillRect(KS0108_SCREEN_WIDTH - stringWidth - 3,0,stringWidth,8,WHITE);
-	ks0108GotoXY(KS0108_SCREEN_WIDTH - stringWidth - 3,0);
-	ks0108Puts(currentTimeStr);
+	ks0108SelectFont(TEXTFONT,ks0108ReadFontData,BLACK);
+	ks0108FillRect(KS0108_SCREEN_WIDTH - 30-5,0,30+5,7,WHITE);
+	ks0108GotoXY(KS0108_SCREEN_WIDTH - 30 - 3,0);
+	ks0108PutChar((currentDateTime.hours / 10)+48);
+	ks0108PutChar((currentDateTime.hours % 10)+48);
+	ks0108PutChar(':');
+	ks0108PutChar((currentDateTime.minute / 10)+48);
+	ks0108PutChar((currentDateTime.minute % 10)+48);
+	ks0108PutChar(':');
+	ks0108PutChar((currentDateTime.seconds / 10)+48);
+	ks0108PutChar((currentDateTime.seconds % 10)+48);
 }
 
 void drawDate(){
+	sprintf(currentDateStr,"%02i-%02i-%02i",currentDateTime.date, currentDateTime.month, currentDateTime.year);
+	
+	ks0108SelectFont(TEXTFONT,ks0108ReadFontData,BLACK);
 	uint8_t stringWidth = ks0108StringWidth(currentDateStr);
-	ks0108FillRect(3,0,stringWidth,8,WHITE);
+	ks0108FillRect(3,0,stringWidth,7,WHITE);
 	ks0108GotoXY(3,0);
 	ks0108Puts(currentDateStr);
 }
 
-/*
-sMenuItem makeMenuItem(const char *paccText, int iRet){
-    sMenuItem muT;
-    strcpy(muT.acText, paccText);
-    muT.iReturn = iRet;
-    return muT;
-}*/
-
-void drawMenu(char *title, const sMenuItem *pcmuItems, uint8_t iMaxItems){
+void drawPresetDrawer(void){
+	SETFLAG(FLAG_DRAWER);
+	ks0108FillRect(BUTTON_PRES_X - 32, BUTTON_PRES_Y + BUTTON_PRES_HEIGHT + 1,BUTTON_PRES_WIDTH + 32, 12,WHITE);
+	ks0108DrawRect(BUTTON_PRES_X - 32, BUTTON_PRES_Y + BUTTON_PRES_HEIGHT + 1,BUTTON_PRES_WIDTH + 32, 12,BLACK);
+	ks0108FillRect(BUTTON_PRES_X+1, BUTTON_PRES_Y + BUTTON_PRES_HEIGHT-1,BUTTON_PRES_WIDTH-2, 2,WHITE);
 	
+	loadImage(BUTTON_PRES_X - 32 + 3,BUTTON_PRES_Y + BUTTON_PRES_HEIGHT + 3,sun);
+	loadImage(BUTTON_PRES_X - 32 + 15,BUTTON_PRES_Y + BUTTON_PRES_HEIGHT + 3,Moon);
+	
+	preset_sun.x = BUTTON_PRES_X - 32 + 3;
+	preset_sun.y = BUTTON_PRES_Y + BUTTON_PRES_HEIGHT + 3;
+	preset_sun.width = 9;
+	preset_sun.height = 9;
+	
+	preset_moon.x = BUTTON_PRES_X - 32 + 15;
+	preset_moon.y = BUTTON_PRES_Y + BUTTON_PRES_HEIGHT + 3;
+	preset_moon.width = 9;
+	preset_moon.height = 9;
+}
+
+void closePresetDrawer(void){
+	RESETFLAG(FLAG_DRAWER);
+	ks0108FillRect(BUTTON_PRES_X - 32, BUTTON_PRES_Y + BUTTON_PRES_HEIGHT + 1,BUTTON_PRES_WIDTH + 32, 12,WHITE);
+}
+
+void drawPresetActive(void){
+	ks0108FillRect(PRESET_X, PRESET_Y, 9, 9, WHITE);
+	if(activePreset == &prs_sun){
+		loadImage(PRESET_X, PRESET_Y, sun);
+	}else{
+		loadImage(PRESET_X, PRESET_Y, Moon);
+	}
 }
 
 void drawMainScreen(){
@@ -66,6 +99,8 @@ void drawMainScreen(){
 
 	
 	drawValues();
+	
+	drawPresetActive();
 	
 	//And.. the buttons!
 	drawMainScreenButtons(0);
@@ -79,6 +114,11 @@ void drawMainScreen(){
 	buttonUp.y = BUTTON_UP_Y;
 	buttonUp.width = BUTTON_UP_WIDTH;
 	buttonUp.height = BUTTON_UP_HEIGHT;
+	
+	buttonPreset.x = BUTTON_PRES_X;
+	buttonPreset.y = BUTTON_PRES_Y;
+	buttonPreset.width = BUTTON_PRES_WIDTH;
+	buttonPreset.height = BUTTON_PRES_HEIGHT;
 }
 
 uint8_t isIn(lcdPos *pos,square *obj){
@@ -127,8 +167,6 @@ void drawValues(){
 	
 	ks0108GotoXY(SET_X, SET_Y);
 	
-	
-	
 	ks0108Puts(setTempStr);
 	//Draw degree
 	ks0108DrawCircle(fWidth+SET_X+4,SET_Y, 2, BLACK)
@@ -136,33 +174,57 @@ void drawValues(){
 }
 
 
-//Active. 0 = none, 1 = UP, 2 = DOWN
+//Active. 0 = none, 1 = UP, 2 = DOWN, 2 = PRESET
 void drawMainScreenButtons(uint8_t active){
 	ks0108FillRect(BUTTON_UP_X,BUTTON_UP_Y,BUTTON_UP_WIDTH,BUTTON_UP_HEIGHT,WHITE);
 	ks0108FillRect(BUTTON_DOWN_X,BUTTON_DOWN_Y,BUTTON_DOWN_WIDTH,BUTTON_DOWN_HEIGHT,WHITE);
+	ks0108FillRect(BUTTON_PRES_X,BUTTON_PRES_Y,BUTTON_PRES_WIDTH,BUTTON_PRES_HEIGHT,WHITE);
 	
 	ks0108DrawRect(BUTTON_UP_X,BUTTON_UP_Y,BUTTON_UP_WIDTH,BUTTON_UP_HEIGHT,BLACK);
 	ks0108DrawRect(BUTTON_DOWN_X,BUTTON_DOWN_Y,BUTTON_DOWN_WIDTH,BUTTON_DOWN_HEIGHT,BLACK);
+	ks0108DrawRect(BUTTON_PRES_X,BUTTON_PRES_Y,BUTTON_PRES_WIDTH,BUTTON_PRES_HEIGHT,BLACK);
 	
-	/*ks0108GotoXY(BUTTON_UP_X+((BUTTON_UP_WIDTH-ks0108CharWidth('+'))/2)+1,BUTTON_UP_Y+((BUTTON_UP_HEIGHT-9)/2)+1);
-	ks0108PutChar('+');*/
-	
-	uint8_t x1 = BUTTON_DOWN_X+(BUTTON_DOWN_WIDTH/4)+1;
-	uint8_t x2 = x1 + (BUTTON_DOWN_WIDTH/2)-1;
-	uint8_t y = BUTTON_DOWN_Y+(BUTTON_DOWN_HEIGHT/2);
+	//Draw the minus
+	uint8_t x1 = BUTTON_DOWN_X+4;
+	uint8_t x2 = x1 + 4;
+	uint8_t y = BUTTON_DOWN_Y+4;
 	ks0108DrawLine(x1,y,x2,y,BLACK);
 	
-	x1 = BUTTON_UP_X+(BUTTON_UP_WIDTH/4)+1;
-	x2 = x1 + (BUTTON_UP_WIDTH/2)-1;
-	uint8_t y1 = BUTTON_UP_Y+(BUTTON_UP_HEIGHT/2);
+	//Draw the plus
+	x1 = BUTTON_UP_X+4;
+	x2 = x1 + 4;
+	uint8_t y1 = BUTTON_UP_Y+4;
 	
 	ks0108DrawLine(x1,y1,x2,y1,BLACK);
 	
-	x1 = ((x2 - x1) / 2) + x1;
-	y1 = BUTTON_UP_Y+(BUTTON_UP_HEIGHT/4)+1;
-	uint8_t y2 = y1 + (BUTTON_UP_HEIGHT / 2)-1;
+	x1 = BUTTON_UP_X+6;
+	y1 = BUTTON_UP_Y+2;
+	uint8_t y2 = y1 + 4;
 	
 	ks0108DrawLine(x1,y1,x1,y2,BLACK);
+	
+	
+	//And the arrow
+	if(CHECKFLAG(FLAG_DRAWER)){
+		ks0108FillRect(BUTTON_PRES_X+1, BUTTON_PRES_Y + BUTTON_PRES_HEIGHT-1,BUTTON_PRES_WIDTH-2, 2,WHITE);
+		x1 = BUTTON_PRES_X + 4;
+		x2 = BUTTON_PRES_X + 6;
+		y1 = BUTTON_PRES_Y + 5;
+		y2 = BUTTON_PRES_Y + 3;
+		ks0108DrawLine(x1,y1,x2,y2,BLACK);
+	
+		x1 = BUTTON_PRES_X + 8;
+		ks0108DrawLine(x1,y1,x2,y2,BLACK);
+	}else{
+		x1 = BUTTON_PRES_X + 4;
+		x2 = BUTTON_PRES_X + 6;
+		y1 = BUTTON_PRES_Y + 3;
+		y2 = BUTTON_PRES_Y + 5;
+		ks0108DrawLine(x1,y1,x2,y2,BLACK);
+	
+		x1 = BUTTON_PRES_X + 8;
+		ks0108DrawLine(x1,y1,x2,y2,BLACK);
+	}	
 	
 	//ks0108GotoXY(BUTTON_DOWN_X+((BUTTON_DOWN_WIDTH-8)/2)+1,BUTTON_DOWN_Y+((BUTTON_DOWN_HEIGHT-10)/2));
 	//ks0108PutChar('-');
@@ -171,31 +233,25 @@ void drawMainScreenButtons(uint8_t active){
 		ks0108InvertRect(BUTTON_UP_X,BUTTON_UP_Y,BUTTON_UP_WIDTH,BUTTON_UP_HEIGHT);
 	}else if(active == 2){
 		ks0108InvertRect(BUTTON_DOWN_X,BUTTON_DOWN_Y,BUTTON_DOWN_WIDTH,BUTTON_DOWN_HEIGHT);
+	}else if(active == 3){
+		ks0108InvertRect(BUTTON_PRES_X,BUTTON_PRES_Y,BUTTON_PRES_WIDTH,BUTTON_PRES_HEIGHT);
 	}
 	
-	/*
-	//Make the corners nice
-	ks0108SetDot(BUTTON_UP_X-1,BUTTON_UP_Y,BLACK);
-	ks0108SetDot(BUTTON_UP_X,BUTTON_UP_Y,BLACK);
-	ks0108SetDot(BUTTON_UP_X+1,BUTTON_UP_Y,BLACK);
-	ks0108SetDot(BUTTON_UP_X-1,BUTTON_UP_Y+1,WHITE);
-	ks0108SetDot(BUTTON_UP_X,BUTTON_UP_Y+1,BLACK);
-	ks0108SetDot(BUTTON_UP_X+1,BUTTON_UP_Y+1,WHITE);
 	
-	ks0108SetDot(BUTTON_DOWN_X,BUTTON_DOWN_Y,BLACK);
-	ks0108SetDot(BUTTON_DOWN_X+1,BUTTON_DOWN_Y,BLACK);
-	
-	ks0108SetDot(BUTTON_DOWN_X,BUTTON_DOWN_Y+1,BLACK);
-	ks0108SetDot(BUTTON_DOWN_X+1,BUTTON_DOWN_Y+1,WHITE);
-	ks0108SetDot(BUTTON_DOWN_X+1,BUTTON_DOWN_Y-1,WHITE);
-	
-	ks0108SetDot(BUTTON_DOWN_X-1,BUTTON_DOWN_Y+BUTTON_DOWN_HEIGHT,BLACK);
-	ks0108SetDot(BUTTON_DOWN_X,BUTTON_DOWN_Y+BUTTON_DOWN_HEIGHT,BLACK);
-	ks0108SetDot(BUTTON_DOWN_X+1,BUTTON_DOWN_Y+BUTTON_DOWN_HEIGHT,BLACK);
-	ks0108SetDot(BUTTON_DOWN_X-1,BUTTON_DOWN_Y+BUTTON_DOWN_HEIGHT-1,WHITE);
-	ks0108SetDot(BUTTON_DOWN_X,BUTTON_DOWN_Y+BUTTON_DOWN_HEIGHT-1,BLACK);
-	ks0108SetDot(BUTTON_DOWN_X+1,BUTTON_DOWN_Y+BUTTON_DOWN_HEIGHT-1,WHITE);
-	*/
+}
+
+
+void turnLcdOn(void){
+	LCD_AAN();
+	SETFLAG(FLAG_AWAKE);
+	for(volatile uint16_t i=0; i<15000; i++);
+	ks0108Init(0);
+	drawMainScreen();
+}
+
+void turnLcdOff(void){
+	LCD_UIT();
+	RESETFLAG(FLAG_AWAKE);
 }
 
 lcdPos readPos(void){
