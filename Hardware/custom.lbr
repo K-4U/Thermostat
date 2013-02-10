@@ -414,9 +414,9 @@ www.irf.com / irlml5203.pdf</description>
 <device name="" package="SOIC127P600X175-8N">
 <connects>
 <connect gate="A" pin="GND" pad="4"/>
-<connect gate="A" pin="SCL" pad="7"/>
-<connect gate="A" pin="SDA" pad="6"/>
-<connect gate="A" pin="SQW/OUT" pad="5"/>
+<connect gate="A" pin="SCL" pad="6"/>
+<connect gate="A" pin="SDA" pad="5"/>
+<connect gate="A" pin="SQW/OUT" pad="7"/>
 <connect gate="A" pin="VBAT" pad="3"/>
 <connect gate="A" pin="VCC" pad="8"/>
 <connect gate="A" pin="X1" pad="1"/>
