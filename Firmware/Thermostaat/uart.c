@@ -18,8 +18,9 @@ void uart_init(void) {
   //UBRR0L = (F_CPU / (16UL * UART_BAUD)) - 1;
 #endif
 
-	UBRR0L = 51;
+	//UBRR0L = 51;
 	//UBRRL = 129;
+	UBRR0L = 64;
 	UCSR0B = _BV(TXEN0); /* tx/rx/RX Interrupt enable */
 }
 
@@ -55,7 +56,7 @@ char readBuffer(int pntr){
 }
 
 
-ISR(USART_RX_vect){
+ISR(USART0_RX_vect ){
 	recvTotal++;
 	recvByte[recvTotal] = UDR0;
 }

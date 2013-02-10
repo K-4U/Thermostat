@@ -5,7 +5,7 @@
     <ProjectVersion>6.0</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8</ToolchainName>
     <ProjectGuid>{56fab812-7022-484d-b638-c17edd721cce}</ProjectGuid>
-    <avrdevice>ATmega168</avrdevice>
+    <avrdevice>ATmega644</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
     <OutputType>Executable</OutputType>
     <Language>C</Language>
@@ -33,7 +33,7 @@
       </OverrideVtorValue>
       <Channel>
         <host>127.0.0.1</host>
-        <port>50792</port>
+        <port>49732</port>
         <ssl>False</ssl>
       </Channel>
       <ToolOptions>
@@ -41,7 +41,7 @@
         <InterfaceProperties>
           <JtagDbgClock>1000000</JtagDbgClock>
           <JtagProgClock>1000000</JtagProgClock>
-          <IspClock>1000000</IspClock>
+          <IspClock>5275992</IspClock>
           <JtagInChain>false</JtagInChain>
           <JtagEnableExtResetOnStartSession>false</JtagEnableExtResetOnStartSession>
           <JtagDevicesBefore>0</JtagDevicesBefore>
@@ -77,10 +77,10 @@
         <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
         <avrgcc.compiler.symbols.DefSymbols>
           <ListValues>
-            <Value>F_CPU=8000000</Value>
+            <Value>F_CPU=20000000</Value>
           </ListValues>
         </avrgcc.compiler.symbols.DefSymbols>
-        <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
         <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
         <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
         <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
@@ -98,6 +98,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="crc8.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ds1307.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ds1820.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="fonts\arial_bold_14.h">
@@ -124,6 +130,9 @@
     <Compile Include="headers\bitmap.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="headers\bitmaps\batteryIndicator.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="headers\bitmaps\bootscreen.h">
       <SubType>compile</SubType>
     </Compile>
@@ -142,6 +151,9 @@
     <Compile Include="headers\ds1307.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="headers\ds1820.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="headers\glcdFunctions.h">
       <SubType>compile</SubType>
     </Compile>
@@ -152,6 +164,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="headers\batterybar.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="headers\onewire.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="headers\structs.h">
@@ -170,6 +185,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="batterybar.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="onewire.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Thermostaat.c">

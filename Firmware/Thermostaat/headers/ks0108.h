@@ -23,11 +23,11 @@
 #define LCD_DATA_DIR		DDRB		// Data Direction Register for Data Port
 
 // Command Port Bits
-#define D_I					0x06		// D/I Bit Number
-#define R_W					0x07		// R/W Bit Number
-#define EN					0x02		// EN Bit Number
+#define D_I					0x04		// D/I Bit Number
+#define R_W					0x05		// R/W Bit Number
+#define EN					0x06		// EN Bit Number
 #define CSEL1				0x03		// CS1 Bit Number
-#define CSEL2				0x04		// CS2 Bit Number
+#define CSEL2				0x02		// CS2 Bit Number
 
 // Chips
 #define CHIP1				0x00

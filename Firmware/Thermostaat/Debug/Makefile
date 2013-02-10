@@ -41,9 +41,12 @@ SUBDIRS :=  \
 C_SRCS +=  \
 ../bitmap.c \
 ../crc8.c \
+../ds1307.c \
+../ds1820.c \
 ../glcdFunctions.c \
 ../ks0108.c \
 ../batterybar.c \
+../onewire.c \
 ../Thermostaat.c \
 ../uart.c
 
@@ -57,9 +60,12 @@ ASM_SRCS +=
 OBJS +=  \
 bitmap.o \
 crc8.o \
+ds1307.o \
+ds1820.o \
 glcdFunctions.o \
 ks0108.o \
 batterybar.o \
+onewire.o \
 Thermostaat.o \
 uart.o
 
@@ -67,9 +73,12 @@ uart.o
 OBJS_AS_ARGS +=  \
 bitmap.o \
 crc8.o \
+ds1307.o \
+ds1820.o \
 glcdFunctions.o \
 ks0108.o \
 batterybar.o \
+onewire.o \
 Thermostaat.o \
 uart.o
 
@@ -77,9 +86,12 @@ uart.o
 C_DEPS +=  \
 bitmap.d \
 crc8.d \
+ds1307.d \
+ds1820.d \
 glcdFunctions.d \
 ks0108.d \
 batterybar.d \
+onewire.d \
 Thermostaat.d \
 uart.d
 
@@ -87,9 +99,12 @@ uart.d
 C_DEPS_AS_ARGS +=  \
 bitmap.d \
 crc8.d \
+ds1307.d \
+ds1820.d \
 glcdFunctions.d \
 ks0108.d \
 batterybar.d \
+onewire.d \
 Thermostaat.d \
 uart.d
 
@@ -118,10 +133,16 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 
 
 
+
+
+
+
+
+
 ./%.o: .././%.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRGCC\3.3.2.31\AVRToolchain\bin\avr-gcc.exe$(QUOTE)  -funsigned-char -funsigned-bitfields -DF_CPU=8000000  -Os -fpack-struct -fshort-enums -Wall -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)"  -mmcu=atmega168  -o"$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRGCC\3.3.2.31\AVRToolchain\bin\avr-gcc.exe$(QUOTE)  -funsigned-char -funsigned-bitfields -DF_CPU=20000000  -O1 -fpack-struct -fshort-enums -Wall -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)"  -mmcu=atmega644  -o"$@" "$<" 
 	@echo Finished building: $<
 
 
@@ -149,12 +170,12 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU C Linker
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRGCC\3.3.2.31\AVRToolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="Thermostaat.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group  -mmcu=atmega168  
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRGCC\3.3.2.31\AVRToolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="Thermostaat.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group  -mmcu=atmega644  
 	@echo Finished building target: $@
 	"C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRGCC\3.3.2.31\AVRToolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature  "Thermostaat.elf" "Thermostaat.hex"
 	"C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRGCC\3.3.2.31\AVRToolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "Thermostaat.elf" "Thermostaat.eep" || exit 0
 	"C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRGCC\3.3.2.31\AVRToolchain\bin\avr-objdump.exe" -h -S "Thermostaat.elf" > "Thermostaat.lss"
-	"C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRGCC\3.3.2.31\AVRToolchain\bin\avr-size.exe" -C --mcu=atmega168  "Thermostaat.elf"
+	"C:\Program Files (x86)\Atmel\Atmel Studio 6.0\extensions\Atmel\AVRGCC\3.3.2.31\AVRToolchain\bin\avr-size.exe" -C --mcu=atmega644  "Thermostaat.elf"
 	
 
 

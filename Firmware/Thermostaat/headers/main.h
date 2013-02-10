@@ -23,7 +23,7 @@ PROTO double currentTemp;
 PROTO double setTemp;
 PROTO char currentTempStr[5];
 PROTO char setTempStr[5];
-PROTO uint8_t prevY;
+//PROTO uint8_t prevY;
 PROTO uint8_t flags;
 PROTO uint8_t lastAction;
 PROTO preset *activePreset;
@@ -34,31 +34,36 @@ PROTO dateTime currentDateTime;
 PROTO char currentTimeStr[8];
 PROTO char currentDateStr[8];
 
+#define MINIMAL_BATTERY_LEVEL 20
 
 
-
-//						  76543210
-#define FLAG_CV_ON		0b00000001
-#define FLAG_AWAKE		0b00000010
-#define FLAG_HALFSEC	0b00000100
-#define FLAG_100MS		0b00001000
-#define FLAG_SEC		0b00010000
-#define FLAG_DRAWER		0b00100000
+//							  76543210
+#define FLAG_CV_ON			0b00000001
+#define FLAG_AWAKE			0b00000010
+#define FLAG_HALFSEC		0b00000100
+#define FLAG_100MS			0b00001000
+#define FLAG_SEC			0b00010000
+#define FLAG_DRAWER			0b00100000
+#define FLAG_BATTERYTOOLOW	0b01000000
 #define CHECKFLAG(flag) (flags & flag)
 #define SETFLAG(flag)	(flags |= flag)
 #define RESETFLAG(flag)	(flags &= ~flag)
 
 
 
-#define LCD			_BV(PD5)
-#define LCD_AAN()	PORTD |= LCD
-#define LCD_UIT()	PORTD &= ~LCD
+#define LCD			_BV(PC2)
+#define LCD_AAN()	PORTC |= LCD
+#define LCD_UIT()	PORTC &= ~LCD
 
-#define CV_ON()		//LED_AAN()
-#define CV_OFF()	//LED_UIT()
 
-#define BUTTON_WAKE	_BV(PC5)
+#define CVP_ON		_BV(PC7)
+#define CVP_OFF		_BV(PC6)
+#define CV_ON()		{PORTC |= CVP_ON; _delay_ms(5); PORTC &= ~CVP_ON;}
+#define CV_OFF()	{PORTC |= CVP_OFF; _delay_ms(5); PORTC &= ~CVP_OFF;}
+
+#define BUTTON_WAKE	_BV(PC3)
 #define BUTTON_ON	_BV(PC4)
+#define BUTTON_OFF	_BV(PC5)
 #define BUTTON_PIN	PINC
 
 
@@ -96,6 +101,9 @@ PROTO char currentDateStr[8];
 
 #define FLAME_X			KS0108_SCREEN_WIDTH - 8
 #define FLAME_Y			KS0108_SCREEN_HEIGHT - 11
+
+#define BATTERY_X		0
+#define BATTERY_Y		KS0108_SCREEN_HEIGHT - 11
 
 #define TOPBAR_Y		8
 

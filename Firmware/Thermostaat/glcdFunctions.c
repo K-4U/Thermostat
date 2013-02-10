@@ -150,26 +150,31 @@ uint8_t isDifferent(lcdPos *p1, lcdPos *p2){
 }
 
 void drawValues(){
-	ks0108FillRect(CURRENT_X,CURRENT_Y,35,20,WHITE);
+	ks0108FillRect(CURRENT_X,CURRENT_Y,60,20,WHITE);
 	ks0108GotoXY(CURRENT_X, CURRENT_Y);
 	ks0108SelectFont(LARGEVALUEFONT,ks0108ReadFontData,BLACK);
 	
-	uint8_t fWidth = ks0108StringWidth(currentTempStr);
-	ks0108Puts(currentTempStr);
+	//uint8_t fWidth = ks0108StringWidth(currentTempStr);
+	//ks0108Puts(currentTempStr);
+	ks0108PutChar((currentTemp / 10) + 48);
+	ks0108PutChar(((uint8_t)currentTemp % 10) + 48);
+	ks0108PutChar('.');
+	ks0108PutChar(((uint8_t)(currentTemp * 10) % 10) + 48);
+	
 	//Draw degree
-	ks0108DrawCircle(fWidth+CURRENT_X+5,20, 3, BLACK)
-	ks0108DrawCircle(fWidth+CURRENT_X+5,20, 2, BLACK)
+	ks0108DrawCircle(CURRENT_X+47,20, 3, BLACK)
+	ks0108DrawCircle(CURRENT_X+47,20, 2, BLACK)
 
 	//And the set temperature
 	ks0108SelectFont(SMALLVALUEFONT,ks0108ReadFontData,BLACK);
-	fWidth = ks0108StringWidth(setTempStr);
+	uint8_t fWidth = ks0108StringWidth(setTempStr);
 	ks0108FillRect(SET_X,SET_Y,fWidth + 4,UBUNTU_BOLD_14_HEIGHT, WHITE);
 	
 	ks0108GotoXY(SET_X, SET_Y);
 	
 	ks0108Puts(setTempStr);
 	//Draw degree
-	ks0108DrawCircle(fWidth+SET_X+4,SET_Y, 2, BLACK)
+	ks0108DrawCircle(SET_X+26,SET_Y, 2, BLACK)
 	//ks0108DrawRoundRect(KS0108_SCREEN_WIDTH/2,23,35,20,ROUNDNESS,BLACK);
 }
 
@@ -260,10 +265,10 @@ lcdPos readPos(void){
 	//1 = output
     //0 = input
 	//        76543210
-	DDRC &= 0b11110000;
-	DDRC |= 0b00000101;
-	PORTC &=0b11110000;
-	PORTC |=0b00000100;
+	DDRA &= 0b11110000;
+	DDRA |= 0b00000101;
+	PORTA &=0b11110000;
+	PORTA |=0b00000100;
 	
 	//_delay_ms(20);
 
@@ -271,6 +276,7 @@ lcdPos readPos(void){
 	uint8_t rawX = resX;
 	uint8_t a3 = read_adc(3);
 	
+	//printf("rawX: %i   A3: %i   dif: %i\r\n",rawX,a3,a3-rawX);
 	
 	resX = resX - 22;
 	retPos.x = resX / 1.5625;
@@ -279,10 +285,10 @@ lcdPos readPos(void){
 	//1 = output
     //0 = input
 	//        76543210
-	DDRC &= 0b11110000;
-	DDRC |= 0b00001010;
-	PORTC &=0b11110000;
-	PORTC |=0b00001000;
+	DDRA &= 0b11110000;
+	DDRA |= 0b00001010;
+	PORTA &=0b11110000;
+	PORTA |=0b00001000;
 	
 	//_delay_ms(20);
 
@@ -294,7 +300,7 @@ lcdPos readPos(void){
 	
 	
 	
-	if(((a3 - rawX) < 4) && ((a2 - rawY) < 4)){
+	if(((a3 - rawX) == 0) && ((a2 - rawY) == 0)){
 		retPos.isPressed = 1;
 	}else{
 		retPos.isPressed = 0;

@@ -1,0 +1,57 @@
+/*
+ * flags.h
+ *
+ * Created: 7-2-2013 15:13:48
+ *  Author: Koen Beckers
+ */ 
+
+
+#ifndef FLAGS_H_
+#define FLAGS_H_
+
+
+//Flags for main program
+//							  7654321076543210
+#define FLAG_CV_ON			0b0000000000000001
+#define FLAG_AWAKE			0b0000000000000010
+#define FLAG_HALFSEC		0b0000000000000100
+#define FLAG_100MS			0b0000000000001000
+#define FLAG_SEC			0b0000000000010000
+#define FLAG_DRAWER			0b0000000000100000
+#define FLAG_BATTERYTOOLOW	0b0000000001000000
+#define FLAG_READTIME		0b0000000010000000
+#define FLAG_AWAYSCREEN		0b0000001000000000
+#define FLAG_AWAY			0b0000010000000000
+#define CHECKFLAG(flag) (flags & flag)
+#define SETFLAG(flag)	(flags |= flag)
+#define RESETFLAG(flag)	(flags &= ~flag)
+
+//Flags for drawing stuff. Stuff that should be drawn that is
+//							  7654321076543210
+#define DRAW_ALL			0b1111011111111010
+#define DRAW_CV_ON			0b0000000000000001
+#define DRAW_DRAWER			0b0000000000000010
+#define DRAW_BATTERY_LOW	0b0000000000000100
+#define DRAW_BATTERY_BAR	0b0000000000001000
+#define DRAW_TTL_BAR		0b0000000000010000
+#define DRAW_TIME			0b0000000000100000
+#define DRAW_DATE			0b0000000001000000
+#define DRAW_CURRENT		0b0000000010000000
+#define DRAW_SET			0b0000000100000000
+#define DRAW_BUTTONS		0b0000001000000000
+#define DRAW_PRESET			0b0000010000000000
+#define DRAW_AWAYSCREEN		0b0000100000000000
+
+
+#define CHECKDRAWFLAG(flag) (drawFlags & flag)
+#define SETDRAWFLAG(flag)	(drawFlags |= flag)
+#define RESETDRAWFLAG(flag)	(drawFlags &= ~flag)
+
+#define DIFF_X	0b00000001
+#define DIFF_Y	0b00000010
+#define DIFF_P	0b00000100
+
+
+
+
+#endif /* FLAGS_H_ */

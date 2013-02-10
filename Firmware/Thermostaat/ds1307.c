@@ -165,60 +165,68 @@ void Read_DS1307(void){
 	char data;
 	// First we initial the pointer register to address 0x00
 	// Start the I2C Write Transmission
-	printf("Starting i²C\r\n");
+	//printf("Starting i²C\r\n");
 	i2c_start(DS1307_ID,DS1307_ADDR,TW_WRITE);
 
 	// Start from Address 0x00
-	printf("Writing 0 as address\r\n");
+	//printf("Writing 0 as address\r\n");
 	i2c_write(0x00);
 
-	printf("Stopping the write\r\n");
+	//printf("Stopping the write\r\n");
 	// Stop I2C Transmission
 	i2c_stop();
 
 	// Start the I2C Read Transmission
-	printf("Starting the read\r\n");
+	//printf("Starting the read\r\n");
 	i2c_start(DS1307_ID,DS1307_ADDR,TW_READ);
 
 	// Read the Second Register, Send Master Acknowledge
-	printf("Reading seconds\r\n");
+	//printf("Reading seconds\r\n");
 	i2c_read(&data,ACK);
-	currentDateTime.seconds=bcd2dec(data & 0x7F);
+	ds1307_addr[0] = bcd2dec(data & 0x7F);
+	currentDateTime.seconds=ds1307_addr[0];
 
 	// Read the Minute Register, Send Master Acknowledge
-	printf("Reading minutes\r\n");
+	//printf("Reading minutes\r\n");
 	i2c_read(&data,ACK);
-	currentDateTime.minute=bcd2dec(data);
+	ds1307_addr[1] = bcd2dec(data);
+	currentDateTime.minute= ds1307_addr[1];
 
 	// Read the Hour Register, Send Master Acknowledge
-	printf("Reading hours\r\n");
+	//printf("Reading hours\r\n");
 	i2c_read(&data,ACK);
 	if ((data & 0x40) == 0x40) {
 		hour_mode = HOUR_12;
 		ampm_mode=(data & 0x20) >> 5;   // ampm_mode: 0-AM, 1-PM
-		currentDateTime.hours=bcd2dec(data & 0x1F);
+		ds1307_addr[2] = bcd2dec(data & 0x1F);
+		currentDateTime.hours= ds1307_addr[2];
 	} else {
 		hour_mode = HOUR_24;
 		ampm_mode=0;
-		currentDateTime.hours=bcd2dec(data & 0x3F);
+		ds1307_addr[2] = bcd2dec(data & 0x3F);
+		currentDateTime.hours=ds1307_addr[2];
 	}
 
 	// Read the Day of Week Register, Send Master Acknowledge
-	printf("Reading Day of week\r\n");
+	//printf("Reading Day of week\r\n");
 	i2c_read(&data,ACK);
-	currentDateTime.day=bcd2dec(data);
+	ds1307_addr[3] = bcd2dec(data);
+	currentDateTime.day=ds1307_addr[3];
 
 	// Read the Day of Month Register, Send Master Acknowledge
 	i2c_read(&data,ACK);
-	currentDateTime.date=bcd2dec(data);
+	ds1307_addr[4] = bcd2dec(data);
+	currentDateTime.date = ds1307_addr[4];
 
 	// Read the Month Register, Send Master Acknowledge
 	i2c_read(&data,ACK);
-	currentDateTime.month=bcd2dec(data);
+	ds1307_addr[5] = bcd2dec(data);
+	currentDateTime.month=ds1307_addr[5];
 
 	// Read the Year Register, Send Master No Acknowledge
 	i2c_read(&data,NACK);
-	currentDateTime.year=bcd2dec(data);
+	ds1307_addr[6] = bcd2dec(data);
+	currentDateTime.year=ds1307_addr[6];
 	// Stop I2C Transmission
 	i2c_stop();
 }

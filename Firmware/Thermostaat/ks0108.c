@@ -470,9 +470,19 @@ inline void ks0108Enable(void) {
 	asm volatile("nop\n\t"
 				 "nop\n\t"
 				 "nop\n\t"
+				 "nop\n\t"
+				 "nop\n\t"
+				 "nop\n\t"
+				 "nop\n\t"
+				 "nop\n\t"
+				 "nop\n\t"
+				 "nop\n\t"
+				 "nop\n\t"
+				 "nop\n\t"
+				 "nop\n\t"
 				 ::);
 	LCD_CMD_PORT &= ~(0x01 << EN);
-	for(volatile uint8_t i=0; i<8; i++);			// a little delay loop (faster than reading the busy flag)
+	for(volatile uint8_t i=0; i<30; i++);			// a little delay loop (faster than reading the busy flag)
 }
 
 uint8_t ks0108DoReadData(uint8_t first) {
