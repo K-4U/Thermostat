@@ -9,6 +9,7 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
+extern void init_pwm();
 extern void init_timer1(void);
 extern void timer(void);
 

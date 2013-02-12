@@ -18,6 +18,7 @@ uint8_t				displayFontColor;
 const uint8_t*		displayFont;
 
 void displayInit(const uint8_t invert) {
+	LCD_AAN();
 	displayCoord.x = 0;
 	displayCoord.y = 0;
 	displayCoord.page = 0;

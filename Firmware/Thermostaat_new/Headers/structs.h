@@ -56,6 +56,7 @@ typedef struct {
 
 typedef struct {
 	float lastReading;
+	float prevReading;
 	volatile uint8_t *port;
 	volatile uint8_t *pin;
 	volatile uint8_t *ddr;

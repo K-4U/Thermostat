@@ -10,6 +10,20 @@
 #include "Headers/tempsensor.h"
 #include "Headers/glcdFunctions.h"
 
+
+/*
+ * Initializes the PWM Hardware
+ */
+void init_pwm(){
+	//Timer 2 setup
+	TCCR2A |= (1 << COM2A1) | (0 << COM2A0);
+	TCCR2A |= (0 << WGM21) | (1 << WGM20);	// Phase Correct PWM.
+	TCCR2B |= (1 << CS20); //Timer 2 start
+	OCR2A = 0;
+	
+	DDR_BACKLIGHT |= BACKLIGHT;
+}
+
 void init_timer1(void){
 	//Initialize Interrupt for timer1
 	TCNT1L = 0x3c;
@@ -24,20 +38,33 @@ void timer(void){
 	if(CHECKFLAG(FLAG_SEC)){
 		RESETFLAG(FLAG_SEC);
 		
+		currentDateTime.time.seconds++;
 		if(CHECKFLAG(FLAG_AWAKE)){
-			currentDateTime.time.seconds++;
-			if(currentDateTime.time.seconds == 60){
-				SETFLAG(FLAG_READTIME);
+			SETDRAWFLAG(DRAW_TIME);
+		}				
+		if((currentDateTime.time.seconds % 10) == 0){
+			SETFLAG(FLAG_READTIME);
+		}
+		if((currentDateTime.time.seconds % 20) == 0){
+			ds1820_read(&tempIntern);
+			if(tempIntern.prevReading != tempIntern.lastReading){
+				if(!CHECKFLAG(FLAG_AWAYSCREEN)){
+					SETDRAWFLAG(DRAW_INTERN);
+				}					
+				tempIntern.prevReading = tempIntern.lastReading;
 			}
-		}		
 		
-		ds1820_read(&tempIntern);
-		if(oldCurrentTemp != tempIntern.lastReading){
-			SETDRAWFLAG(DRAW_CURRENT);
-			oldCurrentTemp = tempIntern.lastReading;
+				
+			ds1820_read(&tempExtern);
+			if(tempExtern.prevReading != tempExtern.lastReading){
+				if(!CHECKFLAG(FLAG_AWAYSCREEN)){
+					SETDRAWFLAG(DRAW_EXTERN);
+				}					
+				tempExtern.prevReading = tempExtern.lastReading;
+			}
 		}	
 		
-		/*batteryLevel = read_adc(4);
+		batteryLevel = read_adc(ADC_BATTERY);
 		if( (batteryLevel <= (oldBatteryLevel-2)) || (batteryLevel >= (oldBatteryLevel+2))){
 			SETDRAWFLAG(DRAW_BATTERY_BAR);
 			
@@ -49,7 +76,7 @@ void timer(void){
 				//Draw the warning
 				SETDRAWFLAG(DRAW_BATTERY_LOW);
 			}
-		}*/
+		}
 	}
 	
 	if(CHECKFLAG(FLAG_100MS)){
@@ -61,9 +88,14 @@ void timer(void){
 
 		if(CHECKFLAG(FLAG_AWAKE)){
 			lastAction++;
+			PWM_BACKLIGHT = (MAX_LAST_ACTION - lastAction) * (255 / MAX_LAST_ACTION);
 			SETDRAWFLAG(DRAW_TTL_BAR);
 			if(lastAction == MAX_LAST_ACTION){
 				turnLcdOff();
+				power_twi_disable();
+				power_timer2_disable();
+				power_adc_disable();
+				sleep_enable();
 			}
 		}
 		

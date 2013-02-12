@@ -13,7 +13,8 @@
 #include "bitmaps/flame.h"
 #include "bitmaps/moon.h"
 #include "bitmaps/sun.h"
-
+#include "bitmaps/externalTemp.h"
+#include "bitmaps/internalTemp.h"
 
 
 

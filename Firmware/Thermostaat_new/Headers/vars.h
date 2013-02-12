@@ -12,14 +12,13 @@
 //Global vars
 PROTO const preset prs_sun PRESET_SUN;
 PROTO const preset prs_moon PRESET_MOON;
+PROTO char *dayNames[7] DAYNAMES;
 
 PROTO double oldCurrentTemp;
-PROTO double currentTemp;
 PROTO double setTemp;
 PROTO double oldSetTemp;
 PROTO uint8_t lastAction;
 PROTO preset *activePreset;
-PROTO dateTime currentDateTime;
 
 PROTO uint16_t flags;
 PROTO uint16_t drawFlags;
@@ -34,6 +33,18 @@ PROTO square buttonAway;
 PROTO square preset_sun;
 PROTO square preset_moon;
 
+PROTO square awayscreenButtonCancel;
+PROTO square awayscreenButtonOk;
+PROTO square awayscreenButtonDayUp;
+PROTO square awayscreenButtonMonthUp;
+PROTO square awayscreenButtonHourUp;
+PROTO square awayscreenButtonMinuteUp;
+PROTO square awayscreenButtonDayDown;
+PROTO square awayscreenButtonMonthDown;
+PROTO square awayscreenButtonHourDown;
+PROTO square awayscreenButtonMinuteDown;
+
+
 PROTO uint8_t batteryLevel;
 PROTO uint8_t oldBatteryLevel;
 
@@ -44,6 +55,8 @@ PROTO uint8_t button_pressed;
 
 PROTO tempSensor tempIntern;
 PROTO tempSensor tempExtern;
+
+PROTO dateTime timeOfReturn;
 
 
 #endif /* VARS_H_ */

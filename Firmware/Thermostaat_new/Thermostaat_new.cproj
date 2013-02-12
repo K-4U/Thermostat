@@ -119,7 +119,13 @@
     <Compile Include="Headers\bitmaps\bootscreen.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Headers\bitmaps\externalTemp.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Headers\bitmaps\flame.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Headers\bitmaps\internalTemp.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Headers\bitmaps\moon.h">

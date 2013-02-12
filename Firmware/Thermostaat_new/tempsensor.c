@@ -1,46 +1,48 @@
 /*
  * tempsensor.c
  *
- * Created: 7-2-2013 15:54:46
+ * Created: 11-2-2013 13:45:07
  *  Author: Koen Beckers
  */ 
-
 #include "Headers/config.h"
-#include "Headers/tempsensor.h"
 #include "Headers/onewire.h"
 
 
 void init_ds1820(void){
-	tempIntern.ddr = &DDR_TEMP_INTERN;
 	tempIntern.lastReading = 0.0;
+	tempIntern.prevReading = 0.0;
+	
 	tempIntern.loc = TEMP_INTERN;
+	tempIntern.ddr = &DDR_TEMP_INTERN;
 	tempIntern.pin = &PIN_TEMP_INTERN;
 	tempIntern.port = &PORT_TEMP_INTERN;
 	
-	tempExtern.ddr = &DDR_TEMP_EXTERN;
 	tempExtern.lastReading = 0.0;
+	tempExtern.prevReading = 0.0;
+	
 	tempExtern.loc = TEMP_EXTERN;
+	tempExtern.ddr = &DDR_TEMP_EXTERN;
 	tempExtern.pin = &PIN_TEMP_EXTERN;
 	tempExtern.port = &PORT_TEMP_EXTERN;
 }
 
 void ds1820_read(tempSensor *sensor){
-	//ADCSRA &= ~(1<<ADEN)|~(1<<ADSC);
+	ADCSRA &= ~(1<<ADEN)|~(1<<ADSC);
 	uint8_t busy=0, temp1, temp2;
     int16_t temp3;
     double result;
 
     ow_reset(sensor);
-	ow_byte_wr(sensor,0xCC); 
-	ow_byte_wr(sensor,0x44);
+	ow_byte_wr(sensor, 0xCC); 
+	ow_byte_wr(sensor, 0x44);
 	
 	while(busy == 0){
 		busy = ow_byte_rd(sensor);
 	}
 	
 	ow_reset(sensor);
-	ow_byte_wr(sensor,0xCC);
-	ow_byte_wr(sensor,0xBE);
+	ow_byte_wr(sensor, 0xCC);
+	ow_byte_wr(sensor, 0xBE);
 	
 	temp1 = ow_byte_rd(sensor);
 	temp2 = ow_byte_rd(sensor);
@@ -64,11 +66,8 @@ void ds1820_read(tempSensor *sensor){
  
     //result = (float) temp3 / 2.0;   //Calculation for DS18S20 with 0.5 deg C resolution
     result = (double) temp3 / 16.0;    //Calculation for DS18B20
-	
-	char currentTempStr[30];
-	dtostrf(result,1,1,currentTempStr);
-	printf("%s\r\n", currentTempStr);
  
     //_delay_ms(200);
-    sensor->lastReading = result;
-}	
+    //return(result);
+	sensor->lastReading = result;
+}

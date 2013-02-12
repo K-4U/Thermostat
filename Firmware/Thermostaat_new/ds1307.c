@@ -41,7 +41,44 @@ void init_ds1307(void){
 	TWSR = 0x00;   // Select Prescaler of 1
 	// SCL frequency = 11059200 / (16 + 2 * 48 * 1) = 98.743 khz
 	TWBR = 0x30;   // 48 Decimal
+	
+	DDRC |= _BV(PC7) | _BV(PC6);
+	PORTC &= ~(_BV(PC7) | _BV(PC6));
 }
+
+uint8_t maxDays(const structDate *toRead){
+	uint8_t month = toRead->month;
+	if(month == 2){
+		return 28;
+	}else if(month <= 7 && (month % 2)){
+		return 31;
+	}else if(month >= 8 && ((month % 2) == 0)){
+		return 31;
+	}else{
+		return 30;			
+	}
+}
+
+void getDayOfWeek(structDate *toRead){
+	uint8_t month = toRead->month;
+	uint8_t year = toRead->year;
+	uint8_t day = toRead->date;
+	if (month < 3){
+		month = month + 12;
+		year = year - 1;
+	}
+	toRead->day = (
+		day
+		+ (2 * month)
+		+ (int) (6 * (month + 1) / 10)
+		+ year
+		+ (int) (year / 4)
+		- (int) (year / 100)
+		+ (int) (year / 400)
+		+ 1
+	) % 7;
+}
+
 
 /* START I2C Routine */
 unsigned char i2c_transmit(const unsigned char type) {
@@ -183,12 +220,14 @@ void Read_DS1307(dateTime *toRead){
 	// Read the Second Register, Send Master Acknowledge
 	//printf("Reading seconds\r\n");
 	i2c_read(&data,ACK);
-	toRead->time.seconds=bcd2dec(data & 0x7F);;
+	toRead->time.seconds=bcd2dec(data & 0x7F);
+	printf("Seconds: %i\r\n",bcd2dec(data * 0x7F));
 
 	// Read the Minute Register, Send Master Acknowledge
 	//printf("Reading minutes\r\n");
 	i2c_read(&data,ACK);
 	toRead->time.minute = bcd2dec(data);
+	printf("Minutes: %i\r\n",bcd2dec(data));
 
 	// Read the Hour Register, Send Master Acknowledge
 	//printf("Reading hours\r\n");

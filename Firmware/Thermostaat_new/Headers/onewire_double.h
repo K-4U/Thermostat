@@ -43,7 +43,7 @@ extern "C" {
 // Based on information from Sascha Schade. Experimental but worked in tests
 // with one DS18B20 and one DS18S20 on a rather short bus (60cm), where both 
 // sensores have been parasite-powered.
-#define OW_USE_INTERNAL_PULLUP     0  /* 0=external, 1=internal */
+#define OW_USE_INTERNAL_PULLUP     1  /* 0=external, 1=internal */
 
 /*******************************************/
 
@@ -60,17 +60,24 @@ extern "C" {
 // rom-code size including CRC
 #define OW_ROMCODE_SIZE 8
 
-extern uint8_t ow_reset(tempSensor *sensor);
+extern uint8_t ow_in_reset(void);
+extern uint8_t ow_ex_reset(void);
 
-extern uint8_t ow_bit_io(tempSensor *sensor, uint8_t b );
-extern uint8_t ow_byte_wr( tempSensor *sensor, uint8_t b );
-extern uint8_t ow_byte_rd(  tempSensor *sensor );
+extern uint8_t ow_in_bit_io( uint8_t b );
+extern uint8_t ow_in_byte_wr( uint8_t b );
+extern uint8_t ow_in_byte_rd( void );
 
+extern uint8_t ow_ex_bit_io( uint8_t b );
+extern uint8_t ow_ex_byte_wr( uint8_t b );
+extern uint8_t ow_ex_byte_rd( void );
 
-extern void ow_parasite_enable( tempSensor *sensor );
-extern void ow_parasite_disable( tempSensor *sensor );
-extern uint8_t ow_input_pin_state( tempSensor *sensor );
+extern void ow_in_parasite_enable( void );
+extern void ow_in_parasite_disable( void );
+extern uint8_t ow_in_input_pin_state( void );
 
+extern void ow_ex_parasite_enable( void );
+extern void ow_ex_parasite_disable( void );
+extern uint8_t ow_ex_input_pin_state( void );
 
 
 #ifdef __cplusplus

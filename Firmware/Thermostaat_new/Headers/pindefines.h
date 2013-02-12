@@ -13,6 +13,10 @@
 #define PORT_LCD			PORTC
 #define LCD					_BV(PC2)
 
+#define DDR_LED				DDRA
+#define PORT_LED			PORTA
+#define LED					_BV(PA4)
+
 #define PORT_LCD_CMD		PORTD
 #define DDR_LCD_CMD			DDRD
 #define LCD_CMD_DI			PD4
@@ -21,6 +25,10 @@
 #define LCD_CMD_CS1			PD3
 #define LCD_CMD_CS2			PD2
 
+#define PORT_BACKLIGHT		PORTD
+#define DDR_BACKLIGHT		DDRD
+#define BACKLIGHT			_BV(PD7)
+#define PWM_BACKLIGHT		OCR2A
 
 #define PIN_LCD_DATA		PINB
 #define PORT_LCD_DATA		PORTB
@@ -49,10 +57,10 @@
 #define BUTTON_ON			_BV(PC4)
 #define BUTTON_OFF			_BV(PC5)
 
-#define TEMP_INTERN			_BV(PD7)
-#define PIN_TEMP_INTERN		PIND
-#define PORT_TEMP_INTERN	PORTD
-#define DDR_TEMP_INTERN		DDRD
+#define TEMP_INTERN			_BV(PA6)
+#define PIN_TEMP_INTERN		PINA
+#define PORT_TEMP_INTERN	PORTA
+#define DDR_TEMP_INTERN		DDRA
 
 #define TEMP_EXTERN			_BV(PA7)
 #define PIN_TEMP_EXTERN		PINA

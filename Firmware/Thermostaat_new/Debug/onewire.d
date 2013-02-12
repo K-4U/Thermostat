@@ -15,19 +15,22 @@ onewire.d onewire.o: .././onewire.c \
  c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/avr/fuse.h \
  c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/avr/lock.h \
  c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/avr/interrupt.h \
- .././headers/config.h \
+ .././Headers/config.h \
  c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/avr/pgmspace.h \
  c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/include/stddef.h \
  c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/stdio.h \
  c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/include/stdarg.h \
- .././headers/bitmaps.h .././headers/bitmaps/batteryIndicator.h \
- .././headers/bitmaps/bootscreen.h .././headers/bitmaps/flame.h \
- .././headers/bitmaps/moon.h .././headers/bitmaps/sun.h \
- .././headers/fonts.h .././headers/fonts/ubuntu_8.h \
- .././headers/fonts/ubuntu_bold_14.h .././headers/fonts/ubuntu_bold_26.h \
- .././headers/structs.h .././headers/vars.h .././headers/draw.h \
- .././headers/flags.h .././headers/pindefines.h .././headers/io.h \
- .././headers/onewire.h
+ c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/avr/power.h \
+ c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/avr/sleep.h \
+ .././Headers/bitmaps.h .././Headers/bitmaps/batteryIndicator.h \
+ .././Headers/bitmaps/bootscreen.h .././Headers/bitmaps/flame.h \
+ .././Headers/bitmaps/moon.h .././Headers/bitmaps/sun.h \
+ .././Headers/bitmaps/externalTemp.h .././Headers/bitmaps/internalTemp.h \
+ .././Headers/fonts.h .././Headers/fonts/ubuntu_8.h \
+ .././Headers/fonts/ubuntu_bold_14.h .././Headers/fonts/ubuntu_bold_26.h \
+ .././Headers/structs.h .././Headers/vars.h .././Headers/draw.h \
+ .././Headers/flags.h .././Headers/pindefines.h .././Headers/io.h \
+ .././Headers/onewire.h
 
 c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/util/delay.h:
 
@@ -61,7 +64,7 @@ c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.
 
 c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/avr/interrupt.h:
 
-.././headers/config.h:
+.././Headers/config.h:
 
 c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/avr/pgmspace.h:
 
@@ -71,36 +74,44 @@ c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.
 
 c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/include/stdarg.h:
 
-.././headers/bitmaps.h:
+c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/avr/power.h:
 
-.././headers/bitmaps/batteryIndicator.h:
+c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.3.2.31\avrtoolchain\bin\../lib/gcc/avr/4.5.1/../../../../avr/include/avr/sleep.h:
 
-.././headers/bitmaps/bootscreen.h:
+.././Headers/bitmaps.h:
 
-.././headers/bitmaps/flame.h:
+.././Headers/bitmaps/batteryIndicator.h:
 
-.././headers/bitmaps/moon.h:
+.././Headers/bitmaps/bootscreen.h:
 
-.././headers/bitmaps/sun.h:
+.././Headers/bitmaps/flame.h:
 
-.././headers/fonts.h:
+.././Headers/bitmaps/moon.h:
 
-.././headers/fonts/ubuntu_8.h:
+.././Headers/bitmaps/sun.h:
 
-.././headers/fonts/ubuntu_bold_14.h:
+.././Headers/bitmaps/externalTemp.h:
 
-.././headers/fonts/ubuntu_bold_26.h:
+.././Headers/bitmaps/internalTemp.h:
 
-.././headers/structs.h:
+.././Headers/fonts.h:
 
-.././headers/vars.h:
+.././Headers/fonts/ubuntu_8.h:
 
-.././headers/draw.h:
+.././Headers/fonts/ubuntu_bold_14.h:
 
-.././headers/flags.h:
+.././Headers/fonts/ubuntu_bold_26.h:
 
-.././headers/pindefines.h:
+.././Headers/structs.h:
 
-.././headers/io.h:
+.././Headers/vars.h:
 
-.././headers/onewire.h:
+.././Headers/draw.h:
+
+.././Headers/flags.h:
+
+.././Headers/pindefines.h:
+
+.././Headers/io.h:
+
+.././Headers/onewire.h:

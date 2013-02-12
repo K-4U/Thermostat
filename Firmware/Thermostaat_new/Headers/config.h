@@ -12,15 +12,19 @@
 #include <avr/pgmspace.h>
 #include <stdio.h>
 #include <util/delay.h>
+#include <avr/power.h>
+#include <avr/sleep.h>
 
 #ifdef MAIN_C
 #define PROTO
 #define PRESET_SUN	= {sun, 18, {00,00,17}}
 #define PRESET_MOON	= {Moon, 13, {00,00,23}}
+#define DAYNAMES = {"Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"}
 #else
 #define PROTO extern
 #define PRESET_SUN
 #define PRESET_MOON
+#define DAYNAMES
 #endif
 
 #include "bitmaps.h"
@@ -37,6 +41,7 @@
 //As J. Onokiewicz would call them: Magic numbers!
 #define MINIMAL_BATTERY_LEVEL	20
 #define MAX_LAST_ACTION			20
+#define MIN_TEMP_AWAY			10
 
 //Font
 #define TEXTFONT		Ubuntu_9
@@ -46,6 +51,7 @@
 
 //UART
 #define UART_BAUD  			19200
+
 
 
 

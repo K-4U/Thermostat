@@ -13,4 +13,9 @@ extern void init_ds1307(void);
 extern void Read_DS1307(dateTime *toRead);
 extern void Write_DS1307(const dateTime *toWrite);
 
+
+extern void getDayOfWeek(structDate *toRead);
+extern uint8_t maxDays(const structDate *toRead);
+
+
 #endif /* DS1307_H_ */

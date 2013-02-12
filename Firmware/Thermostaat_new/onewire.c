@@ -6,17 +6,17 @@
  */ 
 #include <util/delay.h>
 #include <util/atomic.h>
-#include "headers/config.h"
-#include "headers/onewire.h"
+#include "Headers/config.h"
+#include "Headers/onewire.h"
 
 
 uint8_t ow_input_pin_state(tempSensor* sensor){
-	return (*sensor->pin & sensor->loc); //return OW_GET_IN();
+	return (*sensor->pin & sensor->loc); //OW_GET_IN();
 }
 
 void ow_parasite_enable(tempSensor *sensor){
-	*sensor->port |= sensor->loc; // OW_OUT_HIGH();
-	*sensor->ddr |= sensor->loc; // OW_DIR_OUT();
+	*sensor->port |= sensor->loc; //OW_OUT_HIGH();
+	 *sensor->ddr |= sensor->loc; //OW_DIR_OUT();
 }
 
 void ow_parasite_disable(tempSensor *sensor){
@@ -31,7 +31,7 @@ uint8_t ow_reset(tempSensor *sensor){
 	uint8_t err;
 	
 	*sensor->port &= ~sensor->loc; //OW_OUT_LOW();
-	*sensor->ddr |= ~sensor->loc; //OW_DIR_OUT();            // pull OW-Pin low for 480us
+	*sensor->ddr |= sensor->loc; //OW_DIR_OUT();            // pull OW-Pin low for 480us
 	_delay_us(480);
 
 	ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
@@ -75,7 +75,7 @@ static uint8_t ow_bit_io_intern(tempSensor *sensor, uint8_t b, const uint8_t wit
 		if ( b ) {
 			*sensor->ddr &= ~sensor->loc; //OW_DIR_IN(); // to write "1" release bus, resistor pulls high
 #if OW_USE_INTERNAL_PULLUP
-			*sensor->port |= ~sensor->loc; //OW_OUT_HIGH();
+			*sensor->port |= sensor->loc; //OW_OUT_HIGH();
 #endif
 		}
 
