@@ -19330,30 +19330,6 @@ Source: www.kingbright.com</description>
 <junction x="88.9" y="27.94"/>
 </segment>
 </net>
-<net name="MOSI" class="0">
-<segment>
-<pinref part="ISP" gate="G$1" pin="4"/>
-<wire x1="50.8" y1="-2.54" x2="60.96" y2="-2.54" width="0.1524" layer="91"/>
-<label x="60.96" y="-2.54" size="1.4224" layer="95" xref="yes"/>
-</segment>
-<segment>
-<pinref part="IC3" gate="G$1" pin="(MOSI)PB2"/>
-<wire x1="78.74" y1="86.36" x2="83.82" y2="86.36" width="0.1524" layer="91"/>
-<label x="83.82" y="86.36" size="1.4224" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="MISO" class="0">
-<segment>
-<pinref part="ISP" gate="G$1" pin="1"/>
-<wire x1="40.64" y1="0" x2="27.94" y2="0" width="0.1524" layer="91"/>
-<label x="27.94" y="0" size="1.4224" layer="95" rot="R180" xref="yes"/>
-</segment>
-<segment>
-<pinref part="IC3" gate="G$1" pin="(MISO)PB3"/>
-<wire x1="78.74" y1="88.9" x2="83.82" y2="88.9" width="0.1524" layer="91"/>
-<label x="83.82" y="88.9" size="1.4224" layer="95" xref="yes"/>
-</segment>
-</net>
 <net name="SCK" class="0">
 <segment>
 <pinref part="ISP" gate="G$1" pin="3"/>
@@ -19407,22 +19383,40 @@ Source: www.kingbright.com</description>
 <label x="81.28" y="20.32" size="1.4224" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="N$2" class="0">
+<net name="PDO" class="0">
 <segment>
 <pinref part="JP2" gate="G$1" pin="RXI"/>
-<wire x1="124.46" y1="7.62" x2="83.82" y2="7.62" width="0.1524" layer="91"/>
+<wire x1="124.46" y1="7.62" x2="96.52" y2="7.62" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="7.62" x2="83.82" y2="7.62" width="0.1524" layer="91"/>
 <wire x1="83.82" y1="7.62" x2="83.82" y2="15.24" width="0.1524" layer="91"/>
 <pinref part="IC3" gate="G$1" pin="(TXD/PDO)PE1"/>
 <wire x1="83.82" y1="15.24" x2="78.74" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="7.62" x2="96.52" y2="2.54" width="0.1524" layer="91"/>
+<junction x="96.52" y="7.62"/>
+<label x="96.52" y="2.54" size="1.4224" layer="95" rot="R270" xref="yes"/>
+</segment>
+<segment>
+<pinref part="ISP" gate="G$1" pin="1"/>
+<wire x1="40.64" y1="0" x2="27.94" y2="0" width="0.1524" layer="91"/>
+<label x="27.94" y="0" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
-<net name="N$11" class="0">
+<net name="PDI" class="0">
 <segment>
 <pinref part="IC3" gate="G$1" pin="(RXD/PDI)PE0"/>
 <wire x1="78.74" y1="12.7" x2="86.36" y2="12.7" width="0.1524" layer="91"/>
 <wire x1="86.36" y1="12.7" x2="86.36" y2="10.16" width="0.1524" layer="91"/>
 <pinref part="JP2" gate="G$1" pin="TXO"/>
-<wire x1="86.36" y1="10.16" x2="124.46" y2="10.16" width="0.1524" layer="91"/>
+<wire x1="86.36" y1="10.16" x2="93.98" y2="10.16" width="0.1524" layer="91"/>
+<wire x1="93.98" y1="10.16" x2="124.46" y2="10.16" width="0.1524" layer="91"/>
+<wire x1="93.98" y1="10.16" x2="93.98" y2="2.54" width="0.1524" layer="91"/>
+<junction x="93.98" y="10.16"/>
+<label x="93.98" y="2.54" size="1.4224" layer="95" rot="R270" xref="yes"/>
+</segment>
+<segment>
+<pinref part="ISP" gate="G$1" pin="4"/>
+<wire x1="50.8" y1="-2.54" x2="60.96" y2="-2.54" width="0.1524" layer="91"/>
+<label x="60.96" y="-2.54" size="1.4224" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="DS18B20" class="0">
